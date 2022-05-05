@@ -2,6 +2,7 @@ const cluster = require("cluster");
 const { cpus } = require("os");
 
 const server = require("./app");
+const dotenv = require('dotenv').config()
 
 const logger = require("./log")
 
