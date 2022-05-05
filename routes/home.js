@@ -17,6 +17,7 @@ const passport = require('passport')
 
 // gzip compression
 const compression = require('compression')
+const logger = require('../log/winston')
 
 
 // GET Main
@@ -56,8 +57,6 @@ router.post("/register",
 
 router.get('/logout', auth, (req, res) => {
     const { firstName } = req.user
-    console.log(firstName);
-
     req.logOut()
     res.render("logout", { firstName })
     // const { name } = req.session.user
@@ -74,5 +73,11 @@ router.get('/logout', auth, (req, res) => {
 
 // save product
 router.post("", controller.post)
+
+// error
+router.get("*", (req, res)=>{
+    logger.warn("la ruta no existe")
+    res.status(404).send("Not Found")
+})
 
 module.exports = router
