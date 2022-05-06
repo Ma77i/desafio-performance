@@ -1,4 +1,4 @@
-const chatModel = require('../models/mongoChat')
+const chatModel = require('../models/chatModel')
 
 module.exports = {
     get: async ( req, res ) => {

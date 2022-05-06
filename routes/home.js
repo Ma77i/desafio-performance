@@ -5,7 +5,7 @@ const { Router } = require('express')
 const router = new Router()
 
 // import controller
-const controller = require("../controllers/products")
+const controller = require("../controllers/products.controller")
 
 // middleware
 const auth = require('../middlewares/auth')

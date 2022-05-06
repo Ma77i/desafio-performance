@@ -34,13 +34,14 @@ const io = new Server(server)
 
 
 // Models
-const chatModel = require("./models/mongoChat")
-const prodModel = require("./models/mongoProd")
+const chatModel = require("./models/chatModel")
+const prodModel = require("./models/productsModel")
 
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use("/static", express.static(path.join(__dirname, "public")))
+
 app.use(flash())
 app.use(cookieParser("This is a secret"))
 app.use(session({
@@ -90,7 +91,8 @@ io.on('connection', async (socket) => {
     
     
 // routers
-const chatRouter = require("./routes/chat.router")
+const cartRouter = require("./routes/cart.routes")
+const chatRouter = require("./routes/chat.routes")
 const homeRouter = require("./routes/home")
 const infoRouter = require("./routes/info")
 const prodTestRouter = require("./routes/product-test")
@@ -98,6 +100,8 @@ const randomRouter = require("./routes/randoms")
 const userRouter = require("./routes/user.routes")
 
 
+
+app.use("/api/cart", cartRouter)
 app.use("/api/chat", chatRouter)
 app.use("/info", infoRouter)
 app.use("/api/product-test", prodTestRouter)

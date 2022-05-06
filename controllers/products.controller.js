@@ -1,6 +1,6 @@
 // import model
 const logger = require("../log");
-const productModel = require("../models/mongoProd");
+const productModel = require("../models/productsModel");
 
 module.exports = {
   get: async (req, res) => {
@@ -13,16 +13,6 @@ module.exports = {
       res.status(500).send(error);
     }
   },
-  // get: async (req, res) => {
-  //   const { orderBy, search } = req.query;
-  //   try {
-  //     const products = await productModel.getAll(orderBy, search);
-  //     res.status(201).send(products);
-  //   } catch (error) {
-  //     console.log(error);
-  //     res.status(500).send(error);
-  //   }
-  // },
 
   getById: async (req, res) => {
     const { id } = req.params;
@@ -41,7 +31,7 @@ module.exports = {
     const { id } = req.params;
     console.log(id, body);
     try {
-      const up = await productModel.updateById(id, body);
+      const up = await productModel.updateOne({ _id: id, }, { $set: body, });
       res.status(201).send(up);
     } catch (error) {
       console.log(error);
@@ -56,42 +46,22 @@ module.exports = {
       res.status(201).redirect("/");
     } else {
       logger.error("No post")
-
     }
-/*     console.log("cuerpo:--", body)
-    try {
-      const product = await productModel.create(body);
-      res.status(201).send(product).redirect("/");
-    } catch (err) {
-      logger.error("No post")
-      res.status(500).send(err)
-    } */
   },
 
   deleteProd: async (req, res) => {
     const { id } = req.params;
     try {
       await productModel.deleteOne({ _id: id });
-      console.log("Producto borrado con exito");
       res.status(200).send("Product deleted");
     } catch (err){
       logger.error("No id find")
       res.status(500).send(err);
     }
   },
-  // deleteProd: async (req, res) => {
-  //   const { id } = req.params;
-  //   try {
-  //     const dlt = await productModel.deleteById(id);
-  //     res.status(200).send("Product deleted");
-  //   } catch (error) {
-  //     console.log(error);
-  //     res.status(500).send(error);
-  //   }
-  // },
 
   deleteAll: async (req, res) => {
-    const delAll = await productModel.deleteAll();
-    res.status(200).send(delAll);
+    await productModel.deleteMany({});
+    res.status(200).send("Se eliminaron todos los objetos");
   }
 };
